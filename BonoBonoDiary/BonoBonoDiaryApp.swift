@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct BonoBonoDiaryApp: App {
+    
+    @ObservedObject private var viewModel = ViewModel()
+    
     var body: some Scene {
         WindowGroup {
-            DiaryListView()
+            DiaryListView(viewModel: viewModel)
         }
     }
 }

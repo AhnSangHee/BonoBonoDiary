@@ -15,7 +15,13 @@ struct DiaryPostView: View {
     @State private var title: String = ""
     @State private var content: String = ""
     
-    init() {
+    @ObservedObject var viewModel: ViewModel
+    
+    @Environment(\.dismiss) var dismiss
+    
+    init(viewModel: ViewModel) {
+        self.viewModel = viewModel
+        
         UITextView.appearance().backgroundColor = .clear
     }
     
@@ -42,8 +48,17 @@ struct DiaryPostView: View {
                 BottomBonoBonoView()
             }
             .toolbar {
-                NavigationLink {
+                Button {
+                    viewModel.diaryList.insert(
+                        Diary(
+                            title: title,
+                            content: content,
+                            date: Date().currentDateToString()
+                        ),
+                        at: 0
+                    )
                     
+                    self.dismiss()
                 } label: {
                     Text("완료")
                         .foregroundColor(.black)
@@ -52,13 +67,14 @@ struct DiaryPostView: View {
                 }
             }
         }
+        .navigationTitle("다요리 쓰기")
         .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 struct DiaryPostView_Previews: PreviewProvider {
     static var previews: some View {
-        DiaryPostView()
+        DiaryPostView(viewModel: ViewModel())
     }
 }
 

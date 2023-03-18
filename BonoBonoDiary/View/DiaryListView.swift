@@ -8,15 +8,8 @@
 import SwiftUI
 
 struct DiaryListView: View {
-    let diaryList: [Diary] = [
-        Diary(title: "제목1제목1제목1제목1제목1제목1제목1제목1제목1제목1", content: "내용1", date: Date.currentDateToString()),
-        Diary(title: "제목2", content: "내용2", date: Date.currentDateToString()),
-        Diary(title: "제목3", content: "내용3", date: Date.currentDateToString()),
-        Diary(title: "제목4", content: "내용4", date: Date.currentDateToString()),
-        Diary(title: "제목5", content: "내용5", date: Date.currentDateToString()),
-        Diary(title: "제목6", content: "내용6", date: Date.currentDateToString()),
-        Diary(title: "제목7", content: "내용7", date: Date.currentDateToString())
-    ]
+
+    @ObservedObject var viewModel: ViewModel
     
     private let hueColors = stride(from: 0, to: 1, by: 0.01).map {
         Color(hue: $0, saturation: 1, brightness: 1)
@@ -34,8 +27,8 @@ struct DiaryListView: View {
                     ScrollView(showsIndicators: false) {
                         VStack {
                             Spacer()
-                            ForEach(0..<diaryList.count, id: \.self) { index in
-                                DiaryElementView(title: diaryList[index].title, date: diaryList[index].date)
+                            ForEach(0..<viewModel.diaryList.count, id: \.self) { index in
+                                DiaryElementView(title: viewModel.diaryList[index].title, date: viewModel.diaryList[index].date)
                                     .frame(minWidth: 0, maxWidth: .infinity)
                                     .frame(height: 100)
                                     .padding(
@@ -68,10 +61,10 @@ struct DiaryListView: View {
                                 )
                             )
                         }
-                        .navigationTitle("보노보노><")
+                        .navigationTitle("마이 다요리")
                         .toolbar {
                             NavigationLink {
-                                DiaryPostView()
+                                DiaryPostView(viewModel: viewModel)
                             } label: {
                                 Text("글쓰기")
                                     .foregroundColor(.black)
@@ -91,11 +84,11 @@ struct DiaryListView: View {
 struct DiaryListView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            DiaryListView()
+            DiaryListView(viewModel: ViewModel())
             
             DiaryElementView(
                 title: "제목",
-                date: Date.currentDateToString()
+                date: Date().currentDateToString()
             )
             .background(.yellow)
             .previewDisplayName("Diary Element View")
