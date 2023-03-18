@@ -10,11 +10,12 @@ import SwiftUI
 @main
 struct BonoBonoDiaryApp: App {
     
-    @ObservedObject private var viewModel = ViewModel()
+    @StateObject private var viewModel = ViewModel()
     
     var body: some Scene {
         WindowGroup {
-            DiaryListView(viewModel: viewModel)
+            DiaryListView()
+                .environmentObject(viewModel)
         }
     }
 }

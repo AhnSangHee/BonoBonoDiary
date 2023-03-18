@@ -9,7 +9,7 @@ import Foundation
 
 extension Date {
     func currentDateToString() -> String {
-        return dateFormatter.string(from: Date())
+        return dateFormatter.string(from: self)
     }
 }
 

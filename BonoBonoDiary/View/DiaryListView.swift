@@ -9,26 +9,27 @@ import SwiftUI
 
 struct DiaryListView: View {
 
-    @ObservedObject var viewModel: ViewModel
-    
-    private let hueColors = stride(from: 0, to: 1, by: 0.01).map {
-        Color(hue: $0, saturation: 1, brightness: 1)
-    }
+    @EnvironmentObject var viewModel: ViewModel
     
     var body: some View {
         NavigationView {
             ZStack {
-                LinearGradient(gradient: Gradient(colors: hueColors),
-                               startPoint: .topLeading,
-                               endPoint: .bottomTrailing)
-                .ignoresSafeArea()
+                Common.bonobonoGradient
+                    .ignoresSafeArea()
                 
                 VStack {
                     ScrollView(showsIndicators: false) {
                         VStack {
                             Spacer()
                             ForEach(0..<viewModel.diaryList.count, id: \.self) { index in
-                                DiaryElementView(title: viewModel.diaryList[index].title, date: viewModel.diaryList[index].date)
+                                NavigationLink {
+                                    DiaryView(
+                                        diary: viewModel.diaryList[index]
+                                    )
+                                } label: {
+                                    DiaryElementView(
+                                        diary: viewModel.diaryList[index]
+                                    )
                                     .frame(minWidth: 0, maxWidth: .infinity)
                                     .frame(height: 100)
                                     .padding(
@@ -43,14 +44,11 @@ struct DiaryListView: View {
                                         RoundedRectangle(cornerRadius: 6)
                                             .stroke(Color.black, lineWidth: 3)
                                     )
+                                }
                             }
                             .background {
-                                LinearGradient(
-                                    gradient: Gradient(colors: hueColors),
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                                .cornerRadius(6)
+                                Common.bonobonoGradient
+                                    .cornerRadius(6)
                             }
                             .padding(
                                 .init(
@@ -64,7 +62,7 @@ struct DiaryListView: View {
                         .navigationTitle("마이 다요리")
                         .toolbar {
                             NavigationLink {
-                                DiaryPostView(viewModel: viewModel)
+                                DiaryPostView()
                             } label: {
                                 Text("글쓰기")
                                     .foregroundColor(.black)
@@ -84,11 +82,15 @@ struct DiaryListView: View {
 struct DiaryListView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            DiaryListView(viewModel: ViewModel())
+            DiaryListView()
+                .environmentObject(ViewModel())
             
             DiaryElementView(
-                title: "제목",
-                date: Date().currentDateToString()
+                diary: Diary(
+                    title: "제목",
+                    content: "내용",
+                    date: "날짜"
+                )
             )
             .background(.yellow)
             .previewDisplayName("Diary Element View")
@@ -97,17 +99,21 @@ struct DiaryListView_Previews: PreviewProvider {
 }
 
 fileprivate struct DiaryElementView: View {
-    let title: String
-    let date: String
+    
+    private var diary: Diary
+    
+    init(diary: Diary) {
+        self.diary = diary
+    }
     
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(title)
+                Text(diary.title)
                 
                 Spacer()
                 
-                Text(date)
+                Text(diary.date)
             }
             Spacer()
         }

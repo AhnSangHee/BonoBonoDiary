@@ -8,29 +8,22 @@
 import SwiftUI
 
 struct DiaryPostView: View {
-    private let hueColors = stride(from: 0, to: 1, by: 0.01).map {
-        Color(hue: $0, saturation: 1, brightness: 1)
-    }
     
     @State private var title: String = ""
     @State private var content: String = ""
     
-    @ObservedObject var viewModel: ViewModel
+    @EnvironmentObject var viewModel: ViewModel
     
     @Environment(\.dismiss) var dismiss
     
-    init(viewModel: ViewModel) {
-        self.viewModel = viewModel
-        
+    init() {
         UITextView.appearance().backgroundColor = .clear
     }
     
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: hueColors),
-                           startPoint: .topLeading,
-                           endPoint: .bottomTrailing)
-            .ignoresSafeArea()
+            Common.bonobonoGradient
+                .ignoresSafeArea()
             
             VStack {
                 TextField("제목><?", text: $title)
@@ -41,7 +34,13 @@ struct DiaryPostView: View {
                     .padding(.leading)
                     .padding(.trailing)
                 
-                ColoredTextEditor(text: $content)
+                TextEditor(text: $content)
+                    .background(
+                        ZStack {
+                            Color.blue
+                        }
+                    )
+                    .opacity(0.1)
                     .padding()
                     .cornerRadius(8)
                 
@@ -74,41 +73,6 @@ struct DiaryPostView: View {
 
 struct DiaryPostView_Previews: PreviewProvider {
     static var previews: some View {
-        DiaryPostView(viewModel: ViewModel())
-    }
-}
-
-fileprivate struct ColoredTextEditor: UIViewRepresentable {
-    
-    @Binding var text: String
-    @State var coloredText: (String, UIColor?)
-    
-    init(text: Binding<String>) {
-        self._text = text
-        self.coloredText = (text.wrappedValue, nil)
-    }
-    
-    func makeUIView(context: Context) -> UITextView {
-        let range = (text as NSString).range(of: text)
-        let mutableAttributedString = NSMutableAttributedString(string: coloredText.0)
-        if let color = coloredText.1 {
-            mutableAttributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: range)
-        }
-        let textView = UITextView()
-        textView.attributedText = mutableAttributedString
-        return textView
-    }
-    
-    func updateUIView(_ uiView: UITextView, context: Context) {
-        let range = (text as NSString).range(of: text)
-        let mutableAttributedString = NSMutableAttributedString(string: coloredText.0)
-        if let color = coloredText.1 {
-            mutableAttributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: range)
-        }
-        uiView.attributedText = mutableAttributedString
-    }
-    
-    func color(text: String, color: UIColor) {
-        coloredText = (text, color)
+        DiaryPostView()
     }
 }
