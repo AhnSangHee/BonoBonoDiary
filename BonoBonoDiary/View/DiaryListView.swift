@@ -69,6 +69,16 @@ struct DiaryListView: View {
                             )
                         }
                         .navigationTitle("보노보노><")
+                        .toolbar {
+                            NavigationLink {
+                                DiaryPostView()
+                            } label: {
+                                Text("글쓰기")
+                                    .foregroundColor(.black)
+                                    .font(.title)
+                                    .bold()
+                            }
+                        }
                     }
                     
                     BottomBonoBonoView()
@@ -89,9 +99,6 @@ struct DiaryListView_Previews: PreviewProvider {
             )
             .background(.yellow)
             .previewDisplayName("Diary Element View")
-            
-            BottomBonoBonoView()
-                .previewDisplayName("BottomBonoBonoView")
         }
     }
 }
@@ -115,23 +122,5 @@ fileprivate struct DiaryElementView: View {
                        leading: 0,
                        bottom: 20,
                        trailing: 0))
-    }
-}
-
-fileprivate struct BottomBonoBonoView: View {
-    var body: some View {
-        HStack {
-            Image("bonobono")
-                .resizable()
-                .frame(width: 100, height: 100)
-            
-            Image("bonobono")
-                .resizable()
-                .frame(width: 100, height: 100)
-            
-            Image("bonobono")
-                .resizable()
-                .frame(width: 100, height: 100)
-        }
     }
 }

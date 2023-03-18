@@ -13,6 +13,8 @@
 		6A910BB629C3D6FD00DC917C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A910BB529C3D6FD00DC917C /* Preview Assets.xcassets */; };
 		6A910BC729C3DC7B00DC917C /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A910BC629C3DC7B00DC917C /* Diary.swift */; };
 		6A910BCA29C3EC4600DC917C /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A910BC929C3EC4600DC917C /* Date+.swift */; };
+		6A910BCC29C47C5F00DC917C /* DiaryPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A910BCB29C47C5F00DC917C /* DiaryPostView.swift */; };
+		6A910BCF29C47F6700DC917C /* BottomBonoBonoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A910BCE29C47F6700DC917C /* BottomBonoBonoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +25,8 @@
 		6A910BB529C3D6FD00DC917C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6A910BC629C3DC7B00DC917C /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		6A910BC929C3EC4600DC917C /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
+		6A910BCB29C47C5F00DC917C /* DiaryPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryPostView.swift; sourceTree = "<group>"; };
+		6A910BCE29C47F6700DC917C /* BottomBonoBonoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBonoBonoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +59,7 @@
 		6A910BAD29C3D6FA00DC917C /* BonoBonoDiary */ = {
 			isa = PBXGroup;
 			children = (
+				6A910BCD29C47F2600DC917C /* DesignSystem */,
 				6A910BC829C3EC4100DC917C /* Extension */,
 				6A910BC529C3DC7700DC917C /* Model */,
 				6A910BBE29C3D75E00DC917C /* View */,
@@ -84,7 +89,9 @@
 		6A910BBE29C3D75E00DC917C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6A910BCE29C47F6700DC917C /* BottomBonoBonoView.swift */,
 				6A910BB029C3D6FA00DC917C /* DiaryListView.swift */,
+				6A910BCB29C47C5F00DC917C /* DiaryPostView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -103,6 +110,13 @@
 				6A910BC929C3EC4600DC917C /* Date+.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		6A910BCD29C47F2600DC917C /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DesignSystem;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,9 +190,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A910BB129C3D6FA00DC917C /* DiaryListView.swift in Sources */,
+				6A910BCC29C47C5F00DC917C /* DiaryPostView.swift in Sources */,
 				6A910BC729C3DC7B00DC917C /* Diary.swift in Sources */,
 				6A910BAF29C3D6FA00DC917C /* BonoBonoDiaryApp.swift in Sources */,
 				6A910BCA29C3EC4600DC917C /* Date+.swift in Sources */,
+				6A910BCF29C47F6700DC917C /* BottomBonoBonoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
