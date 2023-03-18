@@ -10,12 +10,12 @@ import SwiftUI
 @main
 struct BonoBonoDiaryApp: App {
     
-    @StateObject private var viewModel = ViewModel()
+    private let persistenceController = PersistenceController.shared
     
     var body: some Scene {
         WindowGroup {
             DiaryListView()
-                .environmentObject(viewModel)
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }

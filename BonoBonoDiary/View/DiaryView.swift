@@ -9,10 +9,10 @@ import SwiftUI
 
 struct DiaryView: View {
     
-    private var diary: Diary
+    private var diaryEntity: DiaryEntity
     
-    init(diary: Diary) {
-        self.diary = diary
+    init(diaryEntity: DiaryEntity) {
+        self.diaryEntity = diaryEntity
     }
     
     var body: some View {
@@ -22,7 +22,7 @@ struct DiaryView: View {
             
             VStack() {
                 HStack {
-                    Text(diary.title)
+                    Text(diaryEntity.title ?? "")
                         .padding()
                     
                     Spacer()
@@ -34,7 +34,7 @@ struct DiaryView: View {
                     .padding(.trailing)
                 
                 HStack {
-                    Text(diary.content)
+                    Text(diaryEntity.content ?? "")
                         .padding()
                         .cornerRadius(8)
                     
@@ -46,19 +46,7 @@ struct DiaryView: View {
                 BottomBonoBonoView()
             }
         }
-        .navigationTitle(diary.date)
+        .navigationTitle(diaryEntity.date?.currentDateToString() ?? "")
         .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-struct DiaryView_Previews: PreviewProvider {
-    static var previews: some View {
-        DiaryView(
-            diary: Diary(
-                title: "제목",
-                content: "내용",
-                date: "날짜"
-            )
-        )
     }
 }

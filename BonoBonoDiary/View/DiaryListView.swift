@@ -9,7 +9,18 @@ import SwiftUI
 
 struct DiaryListView: View {
 
-    @EnvironmentObject var viewModel: ViewModel
+    @Environment(\.managedObjectContext) var managedObjectContext
+
+    @FetchRequest(
+        entity: DiaryEntity.entity(),
+        sortDescriptors: [
+            NSSortDescriptor(
+                keyPath: \DiaryEntity.date,
+                ascending: true
+            )
+        ]
+    ) var diaryList: FetchedResults<DiaryEntity>
+
     
     var body: some View {
         NavigationView {
@@ -21,14 +32,12 @@ struct DiaryListView: View {
                     ScrollView(showsIndicators: false) {
                         VStack {
                             Spacer()
-                            ForEach(0..<viewModel.diaryList.count, id: \.self) { index in
+                            ForEach(diaryList, id: \.title) { diaryEntity in
                                 NavigationLink {
-                                    DiaryView(
-                                        diary: viewModel.diaryList[index]
-                                    )
+                                    DiaryView(diaryEntity: diaryEntity)
                                 } label: {
                                     DiaryElementView(
-                                        diary: viewModel.diaryList[index]
+                                        diaryEntity: diaryEntity
                                     )
                                     .frame(minWidth: 0, maxWidth: .infinity)
                                     .frame(height: 100)
@@ -83,37 +92,26 @@ struct DiaryListView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             DiaryListView()
-                .environmentObject(ViewModel())
-            
-            DiaryElementView(
-                diary: Diary(
-                    title: "제목",
-                    content: "내용",
-                    date: "날짜"
-                )
-            )
-            .background(.yellow)
-            .previewDisplayName("Diary Element View")
         }
     }
 }
 
 fileprivate struct DiaryElementView: View {
     
-    private var diary: Diary
+    private var diaryEntity: DiaryEntity
     
-    init(diary: Diary) {
-        self.diary = diary
+    init(diaryEntity: DiaryEntity) {
+        self.diaryEntity = diaryEntity
     }
     
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(diary.title)
+                Text(diaryEntity.title ?? "")
                 
                 Spacer()
                 
-                Text(diary.date)
+                Text(diaryEntity.date?.currentDateToString() ?? "")
             }
             Spacer()
         }

@@ -12,9 +12,8 @@ struct DiaryPostView: View {
     @State private var title: String = ""
     @State private var content: String = ""
     
-    @EnvironmentObject var viewModel: ViewModel
-    
     @Environment(\.dismiss) var dismiss
+    @Environment(\.managedObjectContext) var managedObjectContext
     
     init() {
         UITextView.appearance().backgroundColor = .clear
@@ -48,14 +47,7 @@ struct DiaryPostView: View {
             }
             .toolbar {
                 Button {
-                    viewModel.diaryList.insert(
-                        Diary(
-                            title: title,
-                            content: content,
-                            date: Date().currentDateToString()
-                        ),
-                        at: 0
-                    )
+                    self.saveDiary(title: title, content: content, date: Date())
                     
                     self.dismiss()
                 } label: {
@@ -68,6 +60,27 @@ struct DiaryPostView: View {
         }
         .navigationTitle("다요리 쓰기")
         .navigationBarTitleDisplayMode(.inline)
+    }
+    
+    private func saveDiary(title: String, content: String, date: Date) {
+        let diary = DiaryEntity(context: managedObjectContext)
+        
+        diary.title = title
+        diary.content = content
+        diary.date = date
+        
+        saveContext()
+    }
+    
+    private func saveContext() {
+        if managedObjectContext.hasChanges {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
     }
 }
 
